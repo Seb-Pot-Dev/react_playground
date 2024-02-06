@@ -1,6 +1,7 @@
-# Gestion de liste de fruits avec React
+# Découverte de React (Node+Vite)
 
-Ce code React permet de créer et de gérer facilement une liste de fruits. Il offre les fonctionnalités suivantes :
+Ici, je découvre les bonnes pratiques de React à travers un projet simple, qui permet de créer et de gérer facilement une liste de fruits. 
+Il offre les fonctionnalités suivantes :
 
 ## Fonctionnalités principales
 
