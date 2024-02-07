@@ -19,47 +19,32 @@ function App() {
 
   const [nouveauFruit, setNouveauFruit] = useState("");
 
+  const [idCounter, setIdCounter] = useState(4); // Initialisé à 4 car on a déjà trois fruits dans le tableau initial
+
   // useRef est un hook (function de la lib React) permettant de faire référance à un composant (comme un #id)
   // const inputRef = useRef();
 
   // COMPORTEMENT REACT ---------------------
   const handleDelete = (id) => {
-    console.log(id);
-
     //1. copie du state
     const fruitsCopy = [...fruits];
-
-    console.log(fruitsCopy);
-
     //2. manipuler la copie du state
     const fruitsCopyUpdated = fruitsCopy.filter((fruit) => fruit.id !== id);
-
     //3. mise à jour du state AVEC LE SETTER
     setFruits(fruitsCopyUpdated);
   };
 
   const handleSubmit = (e) => {
+    // empêche le rechargement de la page
     e.preventDefault();
-
+    // compteur d'id pour incrémenter
+    const id = idCounter;
+    setIdCounter(idCounter+1);
+    const nom = nouveauFruit;
     //1. copie du state
     const fruitsCopy = [...fruits];
-
     //2. manipuler la copie du state
-    const timestamp = new Date().getTime();
-
-    const date = new Date(timestamp);
-    const jour = date.getDate().toString().padStart(2, "0");
-    const mois = (date.getMonth() + 1).toString().padStart(2, "0"); // Les mois commencent à 0, donc on ajoute 1
-    const annee = date.getFullYear().toString();
-    const heure = date.getHours().toString().padStart(2, "0");
-    const minute = date.getMinutes().toString().padStart(2, "0");
-    const seconde = date.getSeconds().toString().padStart(2, "0");
-    const dateFormatee = `${jour}/${mois}/${annee} ${heure}:${minute}:${seconde}`;
-
-    const id = dateFormatee;
-    const nom = nouveauFruit;
-
-    fruitsCopy.push({ id: id, nom: nom });
+    fruitsCopy.push({ id, nom});
 
     //3. mise à jour du state AVEC LE SETTER
     setFruits(fruitsCopy);
