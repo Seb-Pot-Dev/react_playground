@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
-
+import Fruit from "./components/Fruit";
+import FruitForm from "./components/FruitForm";
 function App() {
   //STATE REACT (état, donnée) ------------------
   const [fruits, setFruits] = useState([
@@ -17,12 +18,9 @@ function App() {
     },
   ]);
 
-  const [nouveauFruit, setNouveauFruit] = useState("");
-
-  const [idCounter, setIdCounter] = useState(4); // Initialisé à 4 car on a déjà trois fruits dans le tableau initial
 
   // useRef est un hook (function de la lib React) permettant de faire référance à un composant (comme un #id)
-  // const inputRef = useRef();
+  const inputRef = useRef();
 
   // COMPORTEMENT REACT ---------------------
   const handleDelete = (id) => {
@@ -34,52 +32,29 @@ function App() {
     setFruits(fruitsCopyUpdated);
   };
 
-  const handleSubmit = (e) => {
-    // empêche le rechargement de la page
-    e.preventDefault();
-    // compteur d'id pour incrémenter
-    const id = idCounter;
-    setIdCounter(idCounter+1);
-    const nom = nouveauFruit;
-    //1. copie du state
-    const fruitsCopy = [...fruits];
-    //2. manipuler la copie du state
-    fruitsCopy.push({ id, nom});
+  const handleAdd = (fruitAAjouter) => {
+     //1. copie du state
+     const fruitsCopy = [...fruits];
+     //2. manipulation de la copie
+     fruitsCopy.push(fruitAAjouter);
+     //3. modifier le state avec le setter en lui passant la copie
+     setFruits(fruitsCopy);
+  }
 
-    //3. mise à jour du state AVEC LE SETTER
-    setFruits(fruitsCopy);
-
-    //4. vider le champ
-    setNouveauFruit("");
-  };
-
-  const handleChange = (event) => {
-    setNouveauFruit(event.target.value);
-  };
+  
 
   // AFFICHAGE REACT (render) ----------------
   return (
     <div>
       <h1>Ma liste de fruits</h1>
       <ul>
-        {fruits.map((fruit) => {
-          return (
-            <li key={fruit.id}>
-              {fruit.id} - {fruit.nom}{" "}
-              <button onClick={() => handleDelete(fruit.id)}>X</button>
-            </li>
-          );
-        })}
+        {
+        fruits.map((fruit) => (
+            <Fruit fruitInfo={fruit} onFruitDelete={handleDelete}/>
+        ))}
       </ul>
-      <form action="submit" onSubmit={handleSubmit}>
-        <input
-          value={nouveauFruit}
-          type="text"
-          placeholder="Ajouter un fruit"
-          onChange={handleChange}
-        />
-        <button>Ajouter le fruit</button>
-      </form>
+      <FruitForm handleAdd={handleAdd} />
+
     </div>
   );
 }
